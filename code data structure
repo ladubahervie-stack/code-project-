@@ -1,0 +1,60 @@
+stack.push(current);
+                System.out.println("Read: " + current);
+                System.out.println("Operation: PUSH " + current);
+                System.out.println("Stack: " + stack);
+            }
+ 
+            // Closing delimiters must match the top opening delimiter.
+            else if (current == ')' || current == ']' || current == '}') {
+                System.out.println("Read: " + current);
+ 
+                if (stack.isEmpty()) {
+                    System.out.println("Operation: INVALID");
+                    System.out.println("Reason: Closing delimiter '" + current
+                            + "' has no matching opening delimiter.");
+                    System.out.println("Stack: " + stack);
+                    return false;
+                }
+ 
+                char top = stack.peek();
+                System.out.println("Operation: PEEK " + top);
+ 
+                if (isMatchingPair(top, current)) {
+                    stack.pop();
+                    System.out.println("Operation: POP " + top);
+                    System.out.println("Stack: " + stack);
+                } else {
+                    System.out.println("Operation: INVALID");
+                    System.out.println("Reason: Mismatched delimiters. Opening '"
+                            + top + "' does not match closing '" + current + "'.");
+                    System.out.println("Stack: " + stack);
+                    return false;
+                }
+            }
+            // Other characters are not delimiters and are ignored.
+        }
+ 
+        if (!stack.isEmpty()) {
+            System.out.println("Result: INVALID");
+            System.out.println("Reason: Unmatched opening delimiter remains: "
+                    + stack);
+            return false;
+        }
+ 
+        System.out.println("Result: VALID");
+        System.out.println("Reason: All delimiters are properly matched.");
+        return true;
+    }
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        System.out.print("Enter a sequence: ");
+        String input = scanner.nextLine();
+ 
+        boolean valid = checkDelimiters(input);
+ 
+        System.out.println("\nFinal Output: " + (valid ? "Valid" : "Invalid"));
+        scanner.close();
+    }
+}
